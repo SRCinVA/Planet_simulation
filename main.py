@@ -11,6 +11,8 @@ WHITE = (255, 255, 255)
 class Planet:
     AU = 149.6e6 * 1000  # this will simplify the math (in kilometers)
     G = 6.67428e-11      # the constant of gravity
+    SCALE = 250/AU # for the pixel-to-meter conversion: one AU will be about 100 pixels
+    TIMESTEP = 3600 * 24# what is the elapsing of time we're simulating? We'll make it one day.
 
     def __init__(self, x, y, radius, color, mass):
         self.x = x
@@ -25,6 +27,11 @@ class Planet:
         # the planets will also need velocities
         self.x_vel = 0
         self.y_vel = 0
+
+    def draw(self,win): # this is how we're actually going to get them positioned
+        x = self.x * self.SCALE
+        y = self.y * self.SCALE
+        
 
 # the Pygame event loop
 def main():
