@@ -7,6 +7,7 @@ WIN = pygame.display.set_mode((WIDTH, HEIGHT))  # this the pygame "surface," whi
 pygame.display.set_caption("Planet Simulation")
 
 WHITE = (255, 255, 255)
+YELLOW = (255, 255, 0)
 
 class Planet:
     AU = 149.6e6 * 1000  # this will simplify the math (in kilometers)
@@ -29,14 +30,19 @@ class Planet:
         self.y_vel = 0
 
     def draw(self,win): # this is how we're actually going to get them positioned
-        x = self.x * self.SCALE
-        y = self.y * self.SCALE
-        
+        x = self.x * self.SCALE + WIDTH/2  # positioning it from the middle(?)
+        y = self.y * self.SCALE + HEIGHT/2 # positioning it from the middle(?)
+        pygame.draw.circle(win, self.color, (x,y), self.radius) # this draws the planet on the screen when we call draw()
 
 # the Pygame event loop
 def main():
     run = True
     clock = pygame.time.Clock()  # this "paces" the speed at which the simulation runs
+
+    sun = Planet(0, 0, 30, YELLOW, 1.98892 * 10**30) # in kgs.   # the sun in the middle, at a size, yellow, etc. ...
+    sun.sun = True  # based on our code above, we have to specify that this obejct actually is the sun.
+
+    planets = [sun]
 
     while run:
         clock.tick(60) # maximum of 60 times per second
