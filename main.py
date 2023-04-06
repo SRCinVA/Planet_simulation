@@ -6,9 +6,10 @@ WIDTH, HEIGHT = 800, 800  # best to make it square
 WIN = pygame.display.set_mode((WIDTH, HEIGHT))  # this the pygame "surface," which we can call a "window"
 pygame.display.set_caption("Planet Simulation")
 
-WHITE = (255, 255, 255)
+WHITE =  (255, 255, 255)
 YELLOW = (255, 255, 0)
-
+BLUE =   (100, 149, 237)
+RED =    (188, 39, 50)
 class Planet:
     AU = 149.6e6 * 1000  # this will simplify the math (in kilometers)
     G = 6.67428e-11      # the constant of gravity
@@ -42,17 +43,26 @@ def main():
     sun = Planet(0, 0, 30, YELLOW, 1.98892 * 10**30) # in kgs.   # the sun in the middle, at a size, yellow, etc. ...
     sun.sun = True  # based on our code above, we have to specify that this obejct actually is the sun.
 
-    planets = [sun]
+    earth = Planet(-1 * Planet.AU, 0, 16, BLUE, 5.9742 * 10**24)  # -1 AU because we're going to the left.
+    mars = Planet(-1.524 * Planet.AU, 0, 12, RED, 6.39 * 10**23)
+    mercury = Planet
+    venus = Planet
+
+    planets = [sun, earth, mars]
 
     while run:
         clock.tick(60) # maximum of 60 times per second
         # WIN.fill(WHITE)
-        pygame.display.update()
 
         for event in pygame.event.get():  # basically every possible event in pygame--key presses, mouse movements, etc.
             if event.type == pygame.QUIT:
                 run = False
     
+        for planet in planets:  # we go through the list of planets up above
+            planet.draw(WIN)  # then we pass the window we want to draw the planet on
+
+        pygame.display.update() # last, we need to update the display
+
     pygame.quit()
 
 main()
