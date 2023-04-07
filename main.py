@@ -10,6 +10,8 @@ WHITE =  (255, 255, 255)
 YELLOW = (255, 255, 0)
 BLUE =   (100, 149, 237)
 RED =    (188, 39, 50)
+DARK_GRAY = (80, 78, 81)
+
 class Planet:
     AU = 149.6e6 * 1000  # this will simplify the math (in kilometers)
     G = 6.67428e-11      # the constant of gravity
@@ -43,12 +45,12 @@ def main():
     sun = Planet(0, 0, 30, YELLOW, 1.98892 * 10**30) # in kgs.   # the sun in the middle, at a size, yellow, etc. ...
     sun.sun = True  # based on our code above, we have to specify that this obejct actually is the sun.
 
-    earth = Planet(-1 * Planet.AU, 0, 16, BLUE, 5.9742 * 10**24)  # -1 AU because we're going to the left.
+    earth = Planet(-1 * Planet.AU, 0, 16, BLUE, 5.9742 * 10**24)  # -1 AU because we're going to the left. Planet.AU is a variable insie the Planet class.
     mars = Planet(-1.524 * Planet.AU, 0, 12, RED, 6.39 * 10**23)
-    mercury = Planet
-    venus = Planet
+    mercury = Planet(0.387 * Planet.AU, 0 , 8, DARK_GRAY, 3.30 * 10**23)
+    venus = Planet(0.723 * Planet.AU, 0, 14, WHITE, 4.8685 * 10**24)
 
-    planets = [sun, earth, mars]
+    planets = [sun, earth, mars, mercury, venus]
 
     while run:
         clock.tick(60) # maximum of 60 times per second
