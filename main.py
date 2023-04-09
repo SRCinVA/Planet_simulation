@@ -37,6 +37,16 @@ class Planet:
         y = self.y * self.SCALE + HEIGHT/2 # positioning it from the middle(?)
         pygame.draw.circle(win, self.color, (x,y), self.radius) # this draws the planet on the screen when we call draw()
 
+    def attraction(self, other): # this is the force attraction between two objects
+        other_x, other_y = other.x, other.y
+        # to figure out distance between objects:
+        distance_x = other_x - self.x
+        distance_y = other_y - self.y
+        distance = math.sqrt(distance_x ** 2 + distance_y ** 2)
+
+        if other.sun:
+            pass
+
 # the Pygame event loop
 def main():
     run = True
