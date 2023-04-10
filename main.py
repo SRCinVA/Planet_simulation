@@ -45,7 +45,12 @@ class Planet:
         distance = math.sqrt(distance_x ** 2 + distance_y ** 2)
 
         if other.sun:
-            pass
+            self.distance_to_sun = distance # if the other object is the sun, then we just go ahead and store it for later use
+        force = self.G * self.mass * other.mass / distance ** 2  # this is the straight-line force of attraction between the objects    
+        theta = math.atan2(distance_y, distance_x)  # calculates the angle
+        force_x = math.cos(theta) * force # for the x position force
+        force_y = math.sin(theta) * force # for the y position force
+        return force_x, force_y
 
 # the Pygame event loop
 def main():
