@@ -52,6 +52,16 @@ class Planet:
         force_y = math.sin(theta) * force # for the y position force
         return force_x, force_y
 
+    def update_position(self, planets): # remember that each planet effects each other
+        total_fx = total_fy = 0
+        for planet in planets:
+            if self == planet:
+                continue
+
+            fx, fy = self.attraction(planet)
+            total_fx += fx
+            total_fy += fy 
+
 # the Pygame event loop
 def main():
     run = True
