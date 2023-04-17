@@ -53,7 +53,7 @@ class Planet:
         return force_x, force_y
 
     def update_position(self, planets): # remember that each planet effects each other
-        total_fx = total_fy = 0
+        total_fx = total_fy = 0  # this is the total of forces exerted on the planet that is not itself
         for planet in planets:
             if self == planet:
                 continue
@@ -61,6 +61,14 @@ class Planet:
             fx, fy = self.attraction(planet)
             total_fx += fx
             total_fy += fy 
+
+        self.x_vel += total_fx / self.mass * self.TIMESTEP # it's additive because the velocity is changing over time. As x increse, y decreases, and vice versa.
+        self.y_vel += total_fy / self.mass * self.TIMESTEP
+
+        # from acceleration, you get velocity, and from velocity, you get displacement (i.e., distance):
+        self.x += self.x_vel * self.TIMESTEP  # this updates the x position using the velocity
+        self.y += self.y_vel * self.TIMESTEP  # this updates the y position using the velocity
+        self.orbit.append((self.x, self.y))  # this gets appended to orbit[] 
 
 # the Pygame event loop
 def main():
