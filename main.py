@@ -75,25 +75,34 @@ def main():
     run = True
     clock = pygame.time.Clock()  # this "paces" the speed at which the simulation runs
 
+    # each planet has one negative and one positive velocity; this way, they move in the same direction.
     sun = Planet(0, 0, 30, YELLOW, 1.98892 * 10**30) # in kgs.   # the sun in the middle, at a size, yellow, etc. ...
     sun.sun = True  # based on our code above, we have to specify that this obejct actually is the sun.
 
     earth = Planet(-1 * Planet.AU, 0, 16, BLUE, 5.9742 * 10**24)  # -1 AU because we're going to the left. Planet.AU is a variable insie the Planet class.
+    earth.y_vel = 29.783 * 1000
+
     mars = Planet(-1.524 * Planet.AU, 0, 12, RED, 6.39 * 10**23)
+    mars.y_vel = 24.077 * 1000
+
     mercury = Planet(0.387 * Planet.AU, 0 , 8, DARK_GRAY, 3.30 * 10**23)
+    mercury.y_vel = -47.4 * 1000
+
     venus = Planet(0.723 * Planet.AU, 0, 14, WHITE, 4.8685 * 10**24)
+    venus.y_vel = -35.02 * 1000
 
     planets = [sun, earth, mars, mercury, venus]
 
     while run:
         clock.tick(60) # maximum of 60 times per second
-        # WIN.fill(WHITE)
+        WIN.fill((0, 0, 0)) # this redraws the black background (60 times per second?); otherwise, we keep seeing the old planets from past orbits
 
         for event in pygame.event.get():  # basically every possible event in pygame--key presses, mouse movements, etc.
             if event.type == pygame.QUIT:
                 run = False
     
         for planet in planets:  # we go through the list of planets up above
+            planet.update_position(planets)
             planet.draw(WIN)  # then we pass the window we want to draw the planet on
 
         pygame.display.update() # last, we need to update the display
