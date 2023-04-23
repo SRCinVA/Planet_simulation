@@ -1,6 +1,6 @@
 import pygame
 import math
-pygame.init
+pygame.init()
 
 WIDTH, HEIGHT = 800, 800  # best to make it square
 WIN = pygame.display.set_mode((WIDTH, HEIGHT))  # this the pygame "surface," which we can call a "window"
@@ -12,7 +12,7 @@ BLUE =   (100, 149, 237)
 RED =    (188, 39, 50)
 DARK_GRAY = (80, 78, 81)
 
-FONT = pygame.font.sysfont("comicsans", 16)
+FONT = pygame.font.SysFont("arial", 16)
 
 class Planet:
     AU = 149.6e6 * 1000  # this will simplify the math (in kilometers)
@@ -43,16 +43,18 @@ class Planet:
             for point in self.orbit:
                 x, y = point
                 x = x * self.SCALE + WIDTH / 2 # says he's getting to scale to draw them properly. Dividing by 2 to get them from the middle of the screen.
-                y = y * self.SCALE + WIDTH / 2
+                y = y * self.SCALE + HEIGHT / 2
                 updated_points.append((x,y))
 
             pygame.draw.lines(win, self.color, False, updated_points, 2) # pass in the window, the color, unenclosed status, the list of points, and the thickness of the line.
         
-        if not self.sun:
-            distance_text = FONT.render("{round(self.distance_to_sun/1000), 1} km", 1, WHITE) # this FONT object creates a text object taht you can draw, rounded to 1 decimal point. The second "1" means anti-aliasing.
-            win.blit(distance_text)  # to draw it on the screen
-
         pygame.draw.circle(win, self.color, (x,y), self.radius) # this draws the planet on the screen when we call draw()
+
+        if not self.sun:
+            # pygame.font.init()
+            distance_text = FONT.render(f"{round(self.distance_to_sun/1000, 1)} km", 1, WHITE) # this FONT object creates a text object taht you can draw, rounded to 1 decimal point. The second "1" means anti-aliasing.
+            # to draw it on the screen
+            win.blit(distance_text, (x - distance_text.get_width()/2, y - distance_text.get_height()/2)) # this is to adjust where the text object shows up.
 
     def attraction(self, other): # this is the force attraction between two objects
         other_x, other_y = other.x, other.y
@@ -63,6 +65,7 @@ class Planet:
 
         if other.sun:
             self.distance_to_sun = distance # if the other object is the sun, then we just go ahead and store it for later use
+        
         force = self.G * self.mass * other.mass / distance ** 2  # this is the straight-line force of attraction between the objects    
         theta = math.atan2(distance_y, distance_x)  # calculates the angle
         force_x = math.cos(theta) * force # for the x position force
