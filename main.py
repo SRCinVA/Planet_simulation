@@ -12,6 +12,8 @@ BLUE =   (100, 149, 237)
 RED =    (188, 39, 50)
 DARK_GRAY = (80, 78, 81)
 
+FONT = pygame.font.sysfont("comicsans", 16)
+
 class Planet:
     AU = 149.6e6 * 1000  # this will simplify the math (in kilometers)
     G = 6.67428e-11      # the constant of gravity
@@ -45,6 +47,10 @@ class Planet:
                 updated_points.append((x,y))
 
             pygame.draw.lines(win, self.color, False, updated_points, 2) # pass in the window, the color, unenclosed status, the list of points, and the thickness of the line.
+        
+        if not self.sun:
+            distance_text = FONT.render("{round(self.distance_to_sun/1000), 1} km", 1, WHITE) # this FONT object creates a text object taht you can draw, rounded to 1 decimal point. The second "1" means anti-aliasing.
+            win.blit(distance_text)  # to draw it on the screen
 
         pygame.draw.circle(win, self.color, (x,y), self.radius) # this draws the planet on the screen when we call draw()
 
